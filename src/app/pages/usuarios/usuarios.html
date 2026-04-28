@@ -1,0 +1,85 @@
+<div class="inventory-container">
+  <div class="inventory-header">
+    <h2>👥 Gestión de Usuarios</h2>
+    <button class="btn-add" (click)="abrirModal()">+ AÑADIR USUARIO</button>
+  </div>
+
+  <div class="cards-grid">
+    @for (u of usuarios; track $index) {
+      <div class="medic-card">
+        <div class="card-accent"></div>
+        <div class="card-content">
+          <span [class]="'category-tag tag-' + u.rol.toLowerCase()">{{ u.rol }}</span>
+          <h4>{{ u.nombres }} {{ u.apellidos }}</h4>
+          
+          <div class="data-grid">
+            <div class="data-item">
+              <span class="data-label">USERNAME</span>
+              <span class="data-value">{{ u.username }}</span>
+            </div>
+            <div class="data-item">
+              <span class="data-label">ID SISTEMA</span>
+              <span class="data-value">#{{ u.idUsuario || '---' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer-actions">
+          <button class="action-link" (click)="verDetalle(u)">Ver Perfil</button>
+          <div class="btn-group">
+            <button class="btn-mini" (click)="editarUsuario(u)">✏️</button>
+            <button class="btn-mini" (click)="eliminarUsuario(u)">🗑️</button>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">No hay usuarios registrados en el sistema.</div>
+    }
+  </div>
+
+  @if (mostrarModal) {
+    <div class="modal-overlay">
+      <div class="modal-content animate-pop">
+        <div class="modal-header">
+          <h3>Registrar Nuevo Usuario</h3>
+          <button class="btn-mini" (click)="cerrarModal()">✕</button>
+        </div>
+        <form (ngSubmit)="registrarUsuario()">
+          <div class="form-body">
+            <div class="form-field">
+              <label>Nombre de Usuario</label>
+              <input type="text" name="username" placeholder="Ej: alonso_dev" [(ngModel)]="nuevoUsuario.username" required>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Nombres</label>
+                <input type="text" name="nombres" [(ngModel)]="nuevoUsuario.nombres">
+              </div>
+              <div class="form-field">
+                <label>Apellidos</label>
+                <input type="text" name="apellidos" [(ngModel)]="nuevoUsuario.apellidos">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label>Contraseña</label>
+                <input type="password" name="password" placeholder="••••••••" [(ngModel)]="nuevoUsuario.password" required>
+              </div>
+              <div class="form-field">
+                <label>Rol</label>
+                <select name="rol" [(ngModel)]="nuevoUsuario.rol" required>
+                  <option value="CLIENTE">Cliente</option>
+                  <option value="ADMIN">Administrador</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+            <button type="submit" class="btn-save">Guardar Usuario</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

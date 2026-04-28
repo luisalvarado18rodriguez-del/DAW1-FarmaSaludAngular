@@ -1,0 +1,205 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px); 
+  width: 100%;
+  background-color: #f1f5f9; /* Un gris más suave para que las cards resalten */
+  /* --- SEPARACIÓN DEL NAV --- */
+  margin-top: 15px; 
+}
+
+/* --- ANUNCIOS: DISEÑO PREMIUM --- */
+.anuncios-container {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%); /* Degradado para profundidad */
+  color: white;
+  padding: 60px 8%; /* Más aire a los lados */
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: inset 0 -10px 20px rgba(0,0,0,0.05);
+}
+
+.anuncio-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.anuncio-text {
+  flex: 1;
+  animation: slideIn 0.8s ease-out;
+}
+
+.anuncio-text h3 {
+  margin: 0 0 15px 0;
+  font-size: 2.5rem; /* Título más imponente */
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
+
+.anuncio-text p {
+  max-width: 700px;
+  line-height: 1.8;
+  margin: 0;
+  font-size: 1.2rem;
+  color: #186460; /* Color turquesa muy claro para el texto secundario */
+}
+
+/* Ubicación de la Imagen con Efecto 3D */
+.anuncio-image {
+  flex: 0 0 300px;
+  display: flex;
+  justify-content: flex-end;
+  perspective: 1000px; /* Prepara para efecto 3D */
+}
+
+.anuncio-image img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 25px 35px rgba(0,0,0,0.4));
+  animation: floatRegalo 4s ease-in-out infinite;
+  transition: transform 0.5s ease;
+}
+
+.anuncio-image img:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+@keyframes floatRegalo {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50% { transform: translateY(-20px) rotate(3deg); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* --- SECCIÓN INVENTARIO --- */
+.listado-preview {
+  flex: 1;
+  padding: 80px 8%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* Alinea al fondo para un look moderno */
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid #0d9488; /* Línea más gruesa */
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #0f172a;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-header h2::before {
+  content: '📦';
+  font-size: 1.5rem;
+}
+
+/* --- GRID DE 4 COLUMNAS --- */
+.mini-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.mini-card {
+  background: white;
+  padding: 35px 25px;
+  border: none; /* Quitamos borde para usar sombra */
+  border-radius: 0 !important;
+  position: relative;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mini-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card-line {
+  position: absolute;
+  top: 0; left: 0; width: 0%; height: 5px;
+  background: #0d9488;
+  transition: width 0.4s ease;
+}
+
+.mini-card:hover .card-line {
+  width: 100%; /* La línea crece al pasar el mouse */
+}
+
+/* --- BOTÓN VER TODO --- */
+.btn-ver-todo {
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 0 !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.btn-ver-todo:hover {
+  background-color: #0d9488;
+  letter-spacing: 3px; /* Efecto de expansión */
+}
+
+/* --- FOOTER --- */
+.main-footer {
+  background-color: #0f172a;
+  color: #94a3b8;
+  width: 100%;
+  padding: 60px 8% 30px;
+  border-top: 8px solid #0d9488;
+  box-sizing: border-box;
+}
+
+.footer-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-brand h4 {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0;
+  font-weight: 900;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 1280px) {
+  .mini-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .anuncio-flex { flex-direction: column; text-align: center; }
+  .anuncio-image { flex: 0 0 auto; width: 200px; margin-top: 30px; }
+  .mini-grid { grid-template-columns: 1fr; }
+  .section-header { flex-direction: column; align-items: center; gap: 20px; }
+}

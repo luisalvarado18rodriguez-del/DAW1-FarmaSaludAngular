@@ -1,0 +1,63 @@
+<div class="dashboard-page">
+  <div class="anuncio-flex">
+  <div class="anuncio-text">
+    <h3>🔥 ¡LLEGÓ EL CIBERWOW A FARMASALUD!</h3>
+  <p>
+    ¡Aprovecha los descuentos exclusivos! Durante estos 3 días, todos los productos de 
+    <strong>FARMASALUD</strong> tienen un 30% de descuento adicional. Asegúrate de 
+    aplicar los cupones correctamente en caja y mantén un monitoreo constante del stock, 
+    ¡las unidades vuelan!
+  </p>
+  </div>
+  <div class="anuncio-image">
+    <img src="regalo.png" alt="Regalo">
+  </div>
+</div>
+  <section class="listado-preview">
+    <div class="section-header">
+      <h2>MEDICAMENTOS</h2>
+      <button class="btn-ver-todo" routerLink="/medicamentos">
+        VER TODOS →
+      </button>
+    </div>
+
+    <div class="mini-grid">
+      @for (m of listaMedicamentos.slice(0, 4); track m.idMedicamento) {
+        <div class="mini-card">
+          <div class="card-line"></div>
+          <span style="font-size: 0.7rem; color: #94a3b8; font-weight: bold;">PRODUCTO</span>
+          <strong style="font-size: 1.3rem; margin-top: 5px;">{{ m.nombre }}</strong>
+          <p style="margin-top: 15px; font-weight: bold; color: #0d9488;">Stock: {{ m.stock }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+   <footer class="main-footer">
+  <div class="footer-container">
+    
+    <div class="footer-info">
+      <div class="footer-brand">
+        <h4>FARMASALUD</h4>
+        <p>Sistema Farmacia v1.0.4</p>
+      </div>
+      <div class="footer-location">
+        <span>📍 Trujillo, Perú</span>
+      </div>
+    </div>
+
+    <hr class="footer-divider">
+
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span>© 2026 Todos los derechos reservados</span>
+      </div>
+      <div class="developers">
+        <span class="dev-label">DESARROLLADO POR: </span><br>
+        <strong class="dev-names">LUIS ALONSO ALVARADO | JOHAN NAVARRO</strong>
+      </div>
+    </div>
+
+  </div>
+</footer>
+</div>

@@ -1,0 +1,302 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.inventory-container {
+  padding: 40px 5%;
+  background: #f1f5f9; /* Gris sutil para resaltar las cards blancas */
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  margin-top: 15px; /* Separación del Navbar */
+  box-sizing: border-box;
+}
+
+/* --- CABECERA DE SECCIÓN --- */
+.inventory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  border-bottom: 3px solid #0d9488;
+  padding-bottom: 20px;
+}
+
+.inventory-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #0f172a;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* --- BOTÓN AÑADIR (Estilo Dashboard) --- */
+.btn-add {
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 0; /* Estilo recto */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-add:hover {
+  background: #0d9488;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px rgba(13, 148, 136, 0.3);
+}
+
+/* --- GRID DE MEDICAMENTOS --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* --- CARD INDIVIDUAL CON EFECTO PREMIUM --- */
+.medic-card {
+  background: white;
+  border-radius: 0; /* Consistencia visual recta */
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* EFECTO HOVER: Elevación y Borde Verde */
+.medic-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #0d9488;
+}
+
+/* LÍNEA DE ACENTO EXPANSIVA */
+.card-accent {
+  height: 5px;
+  width: 0%; /* Empieza en 0 */
+  background: #0d9488;
+  transition: width 0.4s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.medic-card:hover .card-accent {
+  width: 100%; /* Se expande al 100% en hover */
+}
+
+/* --- CONTENIDO DE LA CARD --- */
+.card-content {
+  padding: 30px 20px;
+  flex-grow: 1;
+}
+
+.category-tag {
+  font-size: 0.75rem;
+  color: #0d9488;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.card-content h4 {
+  margin: 0 0 20px 0;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #1e293b;
+  text-transform: uppercase;
+}
+
+/* GRILLA DE DATOS INTERNA (Stock, Precio, etc.) */
+.data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 0; 
+  padding: 15px;
+  text-align: center;
+  gap: 10px;
+}
+
+.data-label {
+  font-size: 0.65rem;
+  color: #64748b;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.data-value {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+.danger {
+  color: #ef4444; /* Rojo para stock bajo */
+}
+
+/* --- ACCIONES DEL FOOTER DE LA CARD --- */
+.card-footer-actions {
+  padding: 20px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.action-link {
+  background: none;
+  border: none;
+  color: #0d9488;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.action-link:hover {
+  color: #0f172a;
+}
+
+.btn-mini {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-mini:hover {
+  background: #e2e8f0;
+  transform: scale(1.1);
+}
+
+/* --- MODALES (ESTILO LIMPIO) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(6px);
+}
+
+.modal-content {
+  background: white;
+  width: 95%;
+  max-width: 550px;
+  border-radius: 0; /* Recto */
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-header {
+  padding: 20px 25px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #0d9488;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-weight: 800;
+  color: #1e293b;
+  text-transform: uppercase;
+}
+
+.form-body {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-field label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-field input, .form-field select {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 0;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+.modal-footer {
+  padding: 20px 30px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.btn-save {
+  background: #0d9488;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: #e2e8f0;
+  color: #475569;
+  border: none;
+  padding: 12px 25px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ANIMACIONES */
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .inventory-header { flex-direction: column; gap: 20px; text-align: center; }
+  .form-row { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: 1fr; }
+}
