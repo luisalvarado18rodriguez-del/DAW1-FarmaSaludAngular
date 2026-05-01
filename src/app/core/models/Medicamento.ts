@@ -10,6 +10,8 @@ export interface Medicamento {
   nombreCategoria: string;
   idCategoria?: number; // El ID que usas para el formulario
   categoria?: Categoria; // La entidad que viene del Backend
+  rutaImagen: string;
+  lote: string;
 }
 
 export interface MedicamentoRequest {

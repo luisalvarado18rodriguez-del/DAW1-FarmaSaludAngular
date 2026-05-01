@@ -2,103 +2,125 @@
   <header class="inventory-header">
     <div class="title-group">
       <h2>Inventario de Medicamentos</h2>
-      <p class="subtitle">{{ listaMedicamentos.length }} Productos en sistema</p>
+      <p style="font-size: 0.9rem; color: #64748b; margin: 5px 0 0 0;">{{ listaMedicamentos.length }} Productos en sistema</p>
     </div>
-    <button class="btn-add" (click)="abrirModal()">
-      <span>+</span> Nuevo Medicamento
-    </button>
+    <button class="btn-add" (click)="abrirModal()">+ NUEVO MEDICAMENTO</button>
   </header>
 
   <div class="cards-grid">
     @for (m of listaMedicamentos; track m.idMedicamento) {
     <div class="medic-card">
-      <div class="card-accent" [style.background]="m.recetaMedica ? '#ef4444' : '#10b981'"></div>
-      <div class="card-content">
+      <!-- LINEA DE ACENTO QUE SE MUEVE -->
+      <div class="card-accent" [style.background]="m.recetaMedica ? '#ef4444' : '#0d9488'"></div>
+      
+      <div class="image-wrapper">
+        @if (m.rutaImagen) {
+          <img [src]="'http://localhost:8080/uploads/' + m.rutaImagen" [alt]="m.nombre">
+        } @else {
+          <span style="font-size: 3rem;">💊</span>
+        }
+      </div>
+
+      <div class="card-body">
         <span class="category-tag">{{ m.nombreCategoria || 'General' }}</span>
-        <h4>{{ m.nombre }}</h4>
-        <div class="data-grid">
-          <div class="data-item">
-            <span class="data-label">PRECIO</span>
-            <span class="data-value">S/ {{ m.precio | number:'1.2-2' }}</span>
+        <h4 class="product-title">{{ m.nombre }}</h4>
+        
+        <div class="stats-box">
+          <div class="stat-item">
+            <span class="stat-label">PRECIO</span>
+            <span class="stat-value">S/ {{ m.precio | number:'1.2-2' }}</span>
           </div>
-          <div class="data-item">
-            <span class="data-label">STOCK</span>
-            <span class="data-value" [class.danger]="m.stock < 10">{{ m.stock }}</span>
+          <div class="stat-item">
+            <span class="stat-label">STOCK</span>
+            <span class="stat-value" [style.color]="m.stock < 10 ? '#ef4444' : '#0f172a'">{{ m.stock }}</span>
           </div>
         </div>
+
+        <div class="lote-tag">LOTE: {{ m.lote || 'N/A' }}</div>
       </div>
-      <div class="card-footer-actions">
-        <button (click)="verDetalle(m)" class="action-link">Detalles</button>
-        <div class="btn-group">
-          <button (click)="prepararEdicion(m)" class="btn-mini">✏️</button>
-          <button (click)="eliminar(m.idMedicamento)" class="btn-mini delete">🗑️</button>
+
+      <div class="card-footer">
+        <button (click)="verDetalle(m)" class="btn-details">DETALLES</button>
+        <div class="action-btns">
+          <button (click)="prepararEdicion(m)" class="mini-btn">✏️</button>
+          <button (click)="eliminar(m.idMedicamento)" class="mini-btn">🗑️</button>
         </div>
       </div>
     </div>
     }
   </div>
 
+  <!-- MODAL -->
   @if (mostrarModal) {
   <div class="modal-overlay">
-    <div class="modal-content animate-pop">
-      <div class="modal-header">
-        <h3>
+    <div class="modal-box">
+      <div style="padding: 15px; border-bottom: 2px solid #0d9488; background: #f8fafc; display: flex; justify-content: space-between;">
+        <h3 style="margin:0; font-size:1rem; font-weight:800; text-transform: uppercase;">
           {{ esDetalle ? '🔍 Detalle' : (editando ? '📝 Editar' : '💊 Nuevo') }} Medicamento
         </h3>
-        <button class="close-x" (click)="cerrarModal()">×</button>
+        <button (click)="cerrarModal()" style="border:none; background:none; cursor:pointer; font-weight:800;">✕</button>
       </div>
 
       <form (ngSubmit)="registrar()">
-        <div class="form-body">
-          <div class="form-field full">
+        <div class="form-grid">
+          <div class="field">
             <label>Nombre del Producto</label>
             <input type="text" [(ngModel)]="nuevoMedicamento.nombre" name="nombre" [disabled]="esDetalle" required>
           </div>
 
+          <div class="field">
+            <label>Código de Lote</label>
+            <input type="text" [(ngModel)]="nuevoMedicamento.lote" name="lote" [disabled]="esDetalle" required>
+          </div>
+
+          @if (!esDetalle) {
+          <div class="field">
+            <label>Imagen del Producto</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*">
+          </div>
+          }
+
           <div class="form-row">
-            <div class="form-field">
+            <div class="field">
               <label>Categoría</label>
-              <select [(ngModel)]="nuevoMedicamento.idCategoria" name="idCategoria" [disabled]="esDetalle"
-                [compareWith]="compararCategorias">
+              <select [(ngModel)]="nuevoMedicamento.idCategoria" name="idCategoria" [disabled]="esDetalle">
                 <option [value]="0" disabled>Seleccionar...</option>
                 @for (cat of listaCategorias; track cat.idCategoria) {
-                <option [value]="cat.idCategoria">{{ cat.nombre }}</option>
+                  <option [value]="cat.idCategoria">{{ cat.nombre }}</option>
                 }
               </select>
             </div>
-            <div class="form-field">
+            <div class="field">
               <label>Precio (S/.)</label>
               <input type="number" [(ngModel)]="nuevoMedicamento.precio" name="precio" [disabled]="esDetalle">
             </div>
           </div>
 
           <div class="form-row">
-            <div class="form-field">
+            <div class="field">
               <label>Stock</label>
               <input type="number" [(ngModel)]="nuevoMedicamento.stock" name="stock" [disabled]="esDetalle">
             </div>
-            <div class="form-field">
+            <div class="field">
               <label>Vencimiento</label>
-              <input type="date" [(ngModel)]="nuevoMedicamento.fechaVencimiento" name="fechaVencimiento"
-                [disabled]="esDetalle">
+              <input type="date" [(ngModel)]="nuevoMedicamento.fechaVencimiento" name="fechaVencimiento" [disabled]="esDetalle">
             </div>
           </div>
 
-          <div class="form-field checkbox">
-            <input type="checkbox" id="receta" [(ngModel)]="nuevoMedicamento.recetaMedica" name="recetaMedica"
-              [disabled]="esDetalle">
-            <label for="receta">Requiere receta médica</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="receta" [(ngModel)]="nuevoMedicamento.recetaMedica" name="recetaMedica" [disabled]="esDetalle">
+            <label for="receta" style="font-size:0.7rem; font-weight:800; color:#475569; text-transform:uppercase;">Requiere receta</label>
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn-cancel" (click)="cerrarModal()">
-            {{ esDetalle ? 'Cerrar' : 'Cancelar' }}
+        <div style="padding: 15px; background: #f8fafc; display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" (click)="cerrarModal()" style="padding: 10px 20px; border:none; font-weight:800; cursor:pointer;">
+            {{ esDetalle ? 'CERRAR' : 'CANCELAR' }}
           </button>
           @if (!esDetalle) {
-          <button type="submit" class="btn-save">
-            {{ editando ? 'Actualizar' : 'Guardar' }}
-          </button>
+            <button type="submit" style="background:#0d9488; color:white; padding:10px 20px; border:none; font-weight:800; cursor:pointer;">
+              {{ editando ? 'ACTUALIZAR' : 'GUARDAR' }}
+            </button>
           }
         </div>
       </form>

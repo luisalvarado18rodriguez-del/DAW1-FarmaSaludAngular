@@ -12,11 +12,17 @@ export class MedicamentoService {
   listar(): Observable<Medicamento[]> {
     return this.http.get<Medicamento[]>(this.apiUrl);
   }
+  registrar(med: MedicamentoRequest, archivo: File): Observable<Medicamento> {
+  const formData = new FormData();
+  
+  const json = JSON.stringify(med);
+  const blob = new Blob([json], { type: 'application/json' });
+  formData.append('medicamento', blob);
+  formData.append('archivo', archivo);
 
-  registrar(med: MedicamentoRequest): Observable<Medicamento> {
-    return this.http.post<Medicamento>(this.apiUrl, med);
-  }
-
+  // NO PASES HEADERS AQUÍ, deja que Angular/Browser lo haga solo
+  return this.http.post<Medicamento>(this.apiUrl, formData);
+}
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }

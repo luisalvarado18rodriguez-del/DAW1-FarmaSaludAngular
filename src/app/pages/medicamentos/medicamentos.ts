@@ -20,6 +20,17 @@ export class Medicamentos implements OnInit {
   editando: boolean = false;
   mostrarModal: boolean = false;
   esDetalle: boolean = false;
+  archivoSeleccionado: File | null = null;
+
+  
+  onFileSelected(event: any): void {
+  const file: File = event.target.files[0];
+  if (file) {
+    this.archivoSeleccionado = file;
+    console.log("Archivo listo para subir:", file.name);
+  }
+}
+
 
 
   nuevoMedicamento = {
@@ -29,7 +40,8 @@ export class Medicamentos implements OnInit {
     stock: 0,
     fechaVencimiento: '',
     recetaMedica: false,
-    idCategoria: 0
+    idCategoria: 0,
+    lote: ''
 
   };
 
@@ -68,29 +80,45 @@ export class Medicamentos implements OnInit {
   }
 
   registrar(): void {
-    if (this.nuevoMedicamento.idCategoria === 0) {
-      alert("Por favor selecciona una categoría");
+  // 1. Validación de seguridad
+  if (this.nuevoMedicamento.idCategoria === 0) {
+    alert("Por favor selecciona una categoría");
+    return;
+  }
+
+  // 2. ¿Es una actualización o un registro nuevo?
+  if (this.editando && this.nuevoMedicamento.idMedicamento) {
+    
+    // Lógica de Actualización (Aquí puedes decidir si envías foto o no)
+    this.medicamentoService.actualizar(this.nuevoMedicamento.idMedicamento, this.nuevoMedicamento).subscribe({
+      next: () => {
+        alert("Medicamento actualizado con éxito");
+        this.finalizarOperacion();
+      },
+      error: (err) => console.error("Error al actualizar", err)
+    });
+
+  } else {
+    
+    // Lógica de Registro nuevo con Imagen
+    if (!this.archivoSeleccionado) {
+      alert("Por favor, selecciona una imagen para el medicamento");
       return;
     }
 
-    if (this.editando && this.nuevoMedicamento.idMedicamento) {
-      // Lógica de Actualización
-      this.medicamentoService.actualizar(this.nuevoMedicamento.idMedicamento, this.nuevoMedicamento as any).subscribe({
-        next: () => {
-          alert("Medicamento actualizado con éxito");
-          this.finalizarOperacion();
-        }
-      });
-    } else {
-      // Lógica de Registro nuevo
-      this.medicamentoService.registrar(this.nuevoMedicamento as any).subscribe({
-        next: () => {
-          alert("Medicamento registrado con éxito");
-          this.finalizarOperacion();
-        }
-      });
-    }
+    // Llamamos al servicio pasando los datos y el archivo capturado en onFileSelected
+    this.medicamentoService.registrar(this.nuevoMedicamento as any, this.archivoSeleccionado).subscribe({
+      next: () => {
+        alert("Medicamento registrado con éxito");
+        this.finalizarOperacion();
+      },
+      error: (err) => {
+        console.error("Error al registrar", err);
+        alert("Hubo un error al guardar el medicamento.");
+      }
+    });
   }
+}
 
   // Método auxiliar para no repetir código
   finalizarOperacion() {
@@ -98,6 +126,7 @@ export class Medicamentos implements OnInit {
     this.limpiarForm();
     this.editando = false;
     this.mostrarModal = false;
+    this.archivoSeleccionado = null;
     this.cd.detectChanges();
   }
 
@@ -107,6 +136,7 @@ export class Medicamentos implements OnInit {
       nombre: '',
       precio: 0,
       stock: 0,
+      lote: '',
       fechaVencimiento: '',
       recetaMedica: false,
       idCategoria: 0
@@ -159,6 +189,7 @@ export class Medicamentos implements OnInit {
       nombre: m.nombre,
       precio: m.precio,
       stock: m.stock,
+      lote: '',
       fechaVencimiento: m.fechaVencimiento,
       recetaMedica: m.recetaMedica,
       idCategoria: idCat
