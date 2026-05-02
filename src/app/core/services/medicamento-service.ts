@@ -26,7 +26,20 @@ export class MedicamentoService {
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  actualizar(id: number, medicamento: any): Observable<any> {
-  return this.http.put(`${this.apiUrl}/${id}`, medicamento);
+ actualizar(id: number, medicamento: any, archivo?: File | null) {
+  const formData = new FormData();
+
+  // Enviar el JSON como Blob
+  formData.append('medicamento', new Blob(
+    [JSON.stringify(medicamento)],
+    { type: 'application/json' }
+  ));
+
+  // Enviar archivo SOLO si existe
+  if (archivo) {
+    formData.append('archivo', archivo);
+  }
+
+  return this.http.put(`${this.apiUrl}/${id}`, formData);
 }
 }

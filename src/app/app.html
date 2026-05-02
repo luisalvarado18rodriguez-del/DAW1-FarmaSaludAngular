@@ -1,16 +1,22 @@
 <div class="main-wrapper">
-  <header class="navbar">
+
+  <header class="navbar" *ngIf="!hideNavbar">
     <h1>FarmaSalud</h1>
+
     <nav>
       <a routerLink="/dashboard">Inicio</a>
-      <a routerLink="/usuarios">Usuarios</a>
-      <a routerLink="/medicamentos">Medicamentos</a>
-      <a routerLink="/login">Iniciar Sesión</a>
-      <a routerLink="/registro">Registro</a>
+
+      <a *ngIf="hasRole('ADMIN')" routerLink="/usuarios">Usuarios</a>
+      <a *ngIf="hasRole('ADMIN')" routerLink="/medicamentos">Medicamentos</a>
+
+      <a *ngIf="hasRole('CLIENTE')" routerLink="/reservas">Mis Reservas</a>
+
+      <a (click)="logout()" style="cursor:pointer; color:#ff6b6b;">Salir</a>
     </nav>
   </header>
 
   <main class="container">
-    <router-outlet></router-outlet> 
+    <router-outlet></router-outlet>
   </main>
+
 </div>

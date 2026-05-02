@@ -89,14 +89,17 @@ export class Medicamentos implements OnInit {
   // 2. ¿Es una actualización o un registro nuevo?
   if (this.editando && this.nuevoMedicamento.idMedicamento) {
     
-    // Lógica de Actualización (Aquí puedes decidir si envías foto o no)
-    this.medicamentoService.actualizar(this.nuevoMedicamento.idMedicamento, this.nuevoMedicamento).subscribe({
-      next: () => {
-        alert("Medicamento actualizado con éxito");
-        this.finalizarOperacion();
-      },
-      error: (err) => console.error("Error al actualizar", err)
-    });
+    this.medicamentoService.actualizar(
+  this.nuevoMedicamento.idMedicamento,
+  this.nuevoMedicamento as any,
+  this.archivoSeleccionado // 🔥 IMPORTANTE
+).subscribe({
+  next: () => {
+    alert("Medicamento actualizado con éxito");
+    this.finalizarOperacion();
+  },
+  error: (err) => console.error("Error al actualizar", err)
+});
 
   } else {
     
@@ -226,5 +229,9 @@ export class Medicamentos implements OnInit {
     // Forzamos a ambos a ser números para evitar errores de tipo (string vs number)
     return Number(o1) === Number(o2);
   }
+
+  getImgUrl(ruta: string): string {
+  return `http://localhost:8080/uploads/${ruta}?t=${new Date().getTime()}`;
+}
 }
 

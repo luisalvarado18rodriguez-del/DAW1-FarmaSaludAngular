@@ -4,13 +4,20 @@ import { AuthService } from '../../core/services/auth-service';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.html',
+  styleUrls: ['./registro.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule], // Agrégalo aquí
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    RouterModule 
+  ]
+  
   
 })
 export class RegistroComponent {
@@ -31,18 +38,18 @@ export class RegistroComponent {
   }
 
   enviarRegistro() {
-    if (this.registroForm.valid) {
-      this.authService.registrar(this.registroForm.value).subscribe({
-        next: (response) => {
-          console.log('Usuario creado con éxito:', response);
-          alert('¡Registro completado! Ahora inicia sesión.');
-          this.router.navigate(['/login']); // Lo mandamos al login
-        },
-        error: (err) => {
-          console.error('Error en el registro:', err);
-          alert('Hubo un error al registrar el usuario.');
-        }
-      });
-    }
+  console.log("CLICK REGISTRO");
+  console.log("VALID:", this.registroForm.valid);
+  console.log(this.registroForm.value);
+
+  if (this.registroForm.valid) {
+    this.authService.registrar(this.registroForm.value).subscribe({
+      next: () => {
+        alert('OK');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => console.error(err)
+    });
   }
+}
 }

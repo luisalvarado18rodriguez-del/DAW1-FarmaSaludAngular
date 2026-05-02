@@ -1,31 +1,41 @@
 <div class="auth-page">
-  <div class="login-card fade-in">
+  <div class="login-card">
+
     <div class="login-header">
       <h1>FARMASALUD</h1>
       <p>INGRESO AL SISTEMA</p>
     </div>
 
-    <!-- Usamos tu username como debe ser -->
     <form (ngSubmit)="onLogin()">
+
       <div class="input-group">
         <label>Nombre de Usuario</label>
-        <input type="text" [(ngModel)]="credentials.username" name="username" 
-               placeholder="Ej: l-alvarado" required>
+        <input type="text"
+               [(ngModel)]="credentials.username"
+               name="username"
+               required>
       </div>
 
       <div class="input-group">
         <label>Contraseña</label>
-        <input type="password" [(ngModel)]="credentials.password" name="password" 
-               placeholder="••••••••" required>
+        <input type="password"
+               [(ngModel)]="credentials.password"
+               name="password"
+               required>
       </div>
 
       <button type="submit" class="btn-primary">
         ENTRAR AL PANEL
       </button>
+
     </form>
 
-    <div class="login-footer">
-      <span>© 2026 Trujillo, Perú</span>
+    <div class="extra-links">
+      <p>¿No tienes cuenta?</p>
+      <a routerLink="/registro" (click)="debugClick()" class="link-register">
+  Crear cuenta
+</a>
     </div>
+
   </div>
 </div>

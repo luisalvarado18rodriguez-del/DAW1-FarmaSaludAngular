@@ -2,7 +2,8 @@
   <header class="inventory-header">
     <div class="title-group">
       <h2>Inventario de Medicamentos</h2>
-      <p style="font-size: 0.9rem; color: #64748b; margin: 5px 0 0 0;">{{ listaMedicamentos.length }} Productos en sistema</p>
+      <p style="font-size: 0.9rem; color: #64748b; margin: 5px 0 0 0;">{{ listaMedicamentos.length }} Productos en
+        sistema</p>
     </div>
     <button class="btn-add" (click)="abrirModal()">+ NUEVO MEDICAMENTO</button>
   </header>
@@ -12,19 +13,19 @@
     <div class="medic-card">
       <!-- LINEA DE ACENTO QUE SE MUEVE -->
       <div class="card-accent" [style.background]="m.recetaMedica ? '#ef4444' : '#0d9488'"></div>
-      
+
       <div class="image-wrapper">
         @if (m.rutaImagen) {
-          <img [src]="'http://localhost:8080/uploads/' + m.rutaImagen" [alt]="m.nombre">
+        <img [src]="getImgUrl(m.rutaImagen)" [alt]="m.nombre">
         } @else {
-          <span style="font-size: 3rem;">💊</span>
+        <span style="font-size: 3rem;">💊</span>
         }
       </div>
 
       <div class="card-body">
         <span class="category-tag">{{ m.nombreCategoria || 'General' }}</span>
         <h4 class="product-title">{{ m.nombre }}</h4>
-        
+
         <div class="stats-box">
           <div class="stat-item">
             <span class="stat-label">PRECIO</span>
@@ -54,11 +55,13 @@
   @if (mostrarModal) {
   <div class="modal-overlay">
     <div class="modal-box">
-      <div style="padding: 15px; border-bottom: 2px solid #0d9488; background: #f8fafc; display: flex; justify-content: space-between;">
+      <div
+        style="padding: 15px; border-bottom: 2px solid #0d9488; background: #f8fafc; display: flex; justify-content: space-between;">
         <h3 style="margin:0; font-size:1rem; font-weight:800; text-transform: uppercase;">
           {{ esDetalle ? '🔍 Detalle' : (editando ? '📝 Editar' : '💊 Nuevo') }} Medicamento
         </h3>
-        <button (click)="cerrarModal()" style="border:none; background:none; cursor:pointer; font-weight:800;">✕</button>
+        <button (click)="cerrarModal()"
+          style="border:none; background:none; cursor:pointer; font-weight:800;">✕</button>
       </div>
 
       <form (ngSubmit)="registrar()">
@@ -73,7 +76,7 @@
             <input type="text" [(ngModel)]="nuevoMedicamento.lote" name="lote" [disabled]="esDetalle" required>
           </div>
 
-          @if (!esDetalle) {
+          @if (!esDetalle && !editando) {
           <div class="field">
             <label>Imagen del Producto</label>
             <input type="file" (change)="onFileSelected($event)" accept="image/*">
@@ -86,7 +89,7 @@
               <select [(ngModel)]="nuevoMedicamento.idCategoria" name="idCategoria" [disabled]="esDetalle">
                 <option [value]="0" disabled>Seleccionar...</option>
                 @for (cat of listaCategorias; track cat.idCategoria) {
-                  <option [value]="cat.idCategoria">{{ cat.nombre }}</option>
+                <option [value]="cat.idCategoria">{{ cat.nombre }}</option>
                 }
               </select>
             </div>
@@ -103,24 +106,30 @@
             </div>
             <div class="field">
               <label>Vencimiento</label>
-              <input type="date" [(ngModel)]="nuevoMedicamento.fechaVencimiento" name="fechaVencimiento" [disabled]="esDetalle">
+              <input type="date" [(ngModel)]="nuevoMedicamento.fechaVencimiento" name="fechaVencimiento"
+                [disabled]="esDetalle">
             </div>
           </div>
 
           <div style="display: flex; align-items: center; gap: 10px;">
-            <input type="checkbox" id="receta" [(ngModel)]="nuevoMedicamento.recetaMedica" name="recetaMedica" [disabled]="esDetalle">
-            <label for="receta" style="font-size:0.7rem; font-weight:800; color:#475569; text-transform:uppercase;">Requiere receta</label>
+            <input type="checkbox" id="receta" [(ngModel)]="nuevoMedicamento.recetaMedica" name="recetaMedica"
+              [disabled]="esDetalle">
+            <label for="receta"
+              style="font-size:0.7rem; font-weight:800; color:#475569; text-transform:uppercase;">Requiere
+              receta</label>
           </div>
         </div>
 
         <div style="padding: 15px; background: #f8fafc; display: flex; justify-content: flex-end; gap: 10px;">
-          <button type="button" (click)="cerrarModal()" style="padding: 10px 20px; border:none; font-weight:800; cursor:pointer;">
+          <button type="button" (click)="cerrarModal()"
+            style="padding: 10px 20px; border:none; font-weight:800; cursor:pointer;">
             {{ esDetalle ? 'CERRAR' : 'CANCELAR' }}
           </button>
           @if (!esDetalle) {
-            <button type="submit" style="background:#0d9488; color:white; padding:10px 20px; border:none; font-weight:800; cursor:pointer;">
-              {{ editando ? 'ACTUALIZAR' : 'GUARDAR' }}
-            </button>
+          <button type="submit"
+            style="background:#0d9488; color:white; padding:10px 20px; border:none; font-weight:800; cursor:pointer;">
+            {{ editando ? 'ACTUALIZAR' : 'GUARDAR' }}
+          </button>
           }
         </div>
       </form>
