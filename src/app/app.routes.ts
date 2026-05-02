@@ -9,6 +9,7 @@ import { Usuarios } from './pages/usuarios/usuarios';
 import { RegistroComponent } from './pages/registro/registro';
 import { CatalogoCliente } from './pages/catalogo-cliente/catalogo-cliente';
 import { MisReservas } from './pages/reservas/mis-reservas';
+import { GestionReservas } from './pages/reservas/gestion-reservas';
 
 export const routes: Routes = [
 
@@ -53,6 +54,12 @@ export const routes: Routes = [
     component: MisReservas, 
     canActivate: [authGuard], 
     data: { role: 'CLIENTE' } 
+  },
+  { 
+  path: 'gestion-reservas', 
+  component: GestionReservas, 
+  canActivate: [authGuard], 
+  data: { role: 'ADMIN' } 
   },
 
  

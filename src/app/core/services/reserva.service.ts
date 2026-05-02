@@ -31,5 +31,10 @@ crear(reserva: ReservaRequest, archivos: File[]): Observable<ReservaResponse> {
   }
   listarPorUsuario(idUsuario: number): Observable<ReservaResponse[]> {
   return this.http.get<ReservaResponse[]>(`${this.apiUrl}/usuario/${idUsuario}`);
-}
+  }
+  // ... dentro de ReservaService
+  actualizarEstado(idReserva: number, estado: string): Observable<ReservaResponse> {
+  // Usamos params para enviar el string del estado
+  return this.http.patch<ReservaResponse>(`${this.apiUrl}/${idReserva}/estado?estado=${estado}`, {});
+  }
 }
