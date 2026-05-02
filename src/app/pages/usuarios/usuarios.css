@@ -1,0 +1,144 @@
+/* Reutilizamos la estructura premium de FarmaSalud */
+.inventory-container {
+  padding: 40px 5%;
+  background: #f1f5f9;
+  min-height: 100vh;
+  margin-top: 15px;
+  box-sizing: border-box;
+}
+
+.inventory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  border-bottom: 3px solid #0d9488;
+  padding-bottom: 20px;
+}
+
+.btn-add {
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background: #0d9488;
+  transform: translateY(-2px);
+}
+
+/* Grid y Cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.medic-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.medic-card:hover {
+  transform: translateY(-10px);
+  border-color: #0d9488;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.card-accent {
+  height: 5px; width: 0%; background: #0d9488;
+  position: absolute; top: 0; left: 0;
+  transition: width 0.4s ease;
+}
+
+.medic-card:hover .card-accent { width: 100%; }
+
+.card-content { padding: 30px 20px; flex-grow: 1; }
+
+.category-tag {
+  font-size: 0.7rem; font-weight: 900;
+  padding: 4px 8px; text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 15px; display: inline-block;
+}
+
+.tag-admin { background: #fee2e2; color: #ef4444; }
+.tag-cliente { background: #dcfce7; color: #16a34a; }
+
+.card-content h4 {
+  margin: 0 0 20px 0; font-size: 1.2rem;
+  font-weight: 800; color: #1e293b;
+}
+
+.data-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: #f8fafc; padding: 15px; gap: 10px;
+}
+
+.data-label { font-size: 0.6rem; color: #64748b; font-weight: 700; display: block; }
+.data-value { font-weight: 800; color: #1e293b; }
+
+.card-footer-actions {
+  padding: 15px 20px; border-top: 1px solid #f1f5f9;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.action-link {
+  background: none; border: none; color: #0d9488;
+  font-weight: 800; text-transform: uppercase; font-size: 0.75rem; cursor: pointer;
+}
+
+.btn-mini {
+  background: #f1f5f9; border: 1px solid #e2e8f0;
+  padding: 6px 10px; cursor: pointer; margin-left: 5px;
+}
+
+/* Modal Estilo Medicamentos */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 2000; backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white; width: 95%; max-width: 500px;
+  animation: pop 0.3s ease-out;
+}
+
+.modal-header {
+  padding: 20px; background: #f8fafc;
+  display: flex; justify-content: space-between;
+  border-bottom: 2px solid #0d9488;
+}
+
+.form-body { padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.form-field label {
+  font-size: 0.7rem; font-weight: 800; color: #475569;
+  text-transform: uppercase; margin-bottom: 5px; display: block;
+}
+
+.form-field input, .form-field select {
+  width: 100%; padding: 12px; border: 1px solid #cbd5e1; box-sizing: border-box;
+}
+
+.modal-footer { padding: 20px; background: #f8fafc; display: flex; justify-content: flex-end; gap: 10px; }
+
+.btn-save { background: #0d9488; color: white; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; }
+.btn-cancel { background: #e2e8f0; color: #475569; border: none; padding: 12px 25px; font-weight: 800; cursor: pointer; }
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

@@ -1,0 +1,117 @@
+<div class="inventory-container">
+  <header class="inventory-header">
+    <div class="title-group">
+      <h2>Catálogo de Medicamentos</h2>
+      <p style="font-size: 0.9rem; color: #64748b; margin: 5px 0 0 0;">
+        Selecciona tus productos y gestiona tu reserva
+      </p>
+    </div>
+  </header>
+
+  <div style="display: flex; gap: 25px; align-items: flex-start;">
+    
+    <!-- SECCIÓN 1: CATÁLOGO (Basado en el diseño de tu compañero) -->
+    <div class="cards-grid" style="flex: 3;">
+      @for (m of listaMedicamentos; track m.idMedicamento) {
+      <div class="medic-card">
+        <div class="card-accent" [style.background]="m.recetaMedica ? '#ef4444' : '#0d9488'"></div>
+        
+        <div class="image-wrapper">
+          @if (m.rutaImagen) {
+            <img [src]="'http://localhost:8080/uploads/' + m.rutaImagen" [alt]="m.nombre">
+          } @else {
+            <span style="font-size: 3rem;">💊</span>
+          }
+        </div>
+
+        <div class="card-body">
+          <span class="category-tag">{{ m.nombreCategoria || 'General' }}</span>
+          <h4 class="product-title">{{ m.nombre }}</h4>
+          
+          <div class="stats-box">
+            <div class="stat-item">
+              <span class="stat-label">PRECIO</span>
+              <span class="stat-value">S/ {{ m.precio | number:'1.2-2' }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">STOCK</span>
+              <span class="stat-value" [style.color]="m.stock < 10 ? '#ef4444' : '#0f172a'">
+                {{ m.stock }}
+              </span>
+            </div>
+          </div>
+
+          <!-- SECCIÓN NUEVA: Selector de cantidad que solicitaste -->
+          <div class="field" style="margin-top: 15px; padding: 0 5px;">
+            <label style="font-size: 0.65rem; font-weight: 800; color: #64748b; text-transform: uppercase;">
+              Cantidad a reservar:
+            </label>
+            <input #cant type="number" value="1" min="1" [max]="m.stock" 
+                   style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div class="card-footer" style="margin-top: 10px;">
+          <!-- Botón corregido: envía el medicamento y el input '#cant' -->
+          <button (click)="agregarAlCarrito(m, cant)" 
+                  [disabled]="m.stock <= 0" 
+                  class="btn-add" style="width: 100%;">
+            {{ m.stock > 0 ? 'AÑADIR AL CARRITO' : 'AGOTADO' }}
+          </button>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- SECCIÓN 2: CARRITO SIDEBAR -->
+    <aside style="flex: 1; background: white; padding: 25px; border-radius: 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); position: sticky; top: 20px; border-top: 5px solid #0d9488;">
+      <h3 style="margin: 0 0 20px 0; font-size: 1.2rem; font-weight: 900; color: #1e293b; text-transform: uppercase;">
+        🛒 Mi Carrito
+      </h3>
+      
+      @if (carrito.length === 0) {
+        <p style="text-align: center; color: #94a3b8; padding: 20px;">Tu carrito está vacío.</p>
+      }
+
+      @for (item of carrito; track $index) {
+        <!-- SECCIÓN NUEVA: Ítems del carrito con badge y subtotal -->
+        <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: #1e293b;">{{ item.nombre }}</strong>
+            <span style="background: #0d9488; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem;">
+              x{{ item.cantidad }}
+            </span>
+          </div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-top: 5px; display: flex; justify-content: space-between;">
+            <span>Subtotal:</span>
+            <span style="font-weight: 800; color: #0d9488;">S/ {{ (item.precio * item.cantidad) | number:'1.2-2' }}</span>
+          </div>
+          
+          <!-- Lógica de receta para el ítem si corresponde -->
+          @if (item.requiereReceta) {
+            <div style="margin-top: 10px; background: #fff1f2; padding: 10px; border-radius: 4px; border: 1px dashed #ef4444;">
+              <label style="font-size: 0.7rem; color: #ef4444; font-weight: 800; text-transform: uppercase;">Adjuntar Receta:</label>
+              <input type="file" (change)="onFileSelected($event, item)" accept="image/*,.pdf" style="font-size: 0.7rem; width: 100%;">
+              @if (item.archivoSeleccionado) {
+                <small style="color: #0d9488; font-weight: bold; display: block; margin-top: 5px;">✓ {{ item.archivoSeleccionado.name }}</small>
+              }
+            </div>
+          }
+          
+          <button (click)="eliminarDelCarrito($index)" style="border: none; background: none; color: #ef4444; cursor: pointer; font-size: 0.75rem; margin-top: 10px; padding: 0;">
+            Eliminar ítem
+          </button>
+        </div>
+      }
+
+      @if (carrito.length > 0) {
+        <div style="margin-top: 20px; border-top: 2px solid #f1f5f9; padding-top: 15px;">
+          <button (click)="finalizarReserva()" class="btn-add" style="width: 100%; padding: 15px;">
+            CONFIRMAR RESERVA
+          </button>
+        </div>
+      }
+    </aside>
+
+  </div>
+</div>

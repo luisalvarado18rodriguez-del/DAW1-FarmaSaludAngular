@@ -1,0 +1,70 @@
+<div class="auth-page">
+  <div class="login-card">
+
+    <div class="login-header">
+      <h1>REGISTRO</h1>
+      <p>CREAR CUENTA</p>
+    </div>
+
+    <form [formGroup]="registroForm" (ngSubmit)="enviarRegistro()">
+
+      <!-- USUARIO -->
+      <div class="input-group">
+        <label>Usuario</label>
+        <input 
+          type="text" 
+          formControlName="username"
+          [class.invalid]="registroForm.get('username')?.invalid && registroForm.get('username')?.touched"
+        >
+
+        <small class="error" 
+          *ngIf="registroForm.get('username')?.touched && registroForm.get('username')?.invalid">
+          Mínimo 6 caracteres
+        </small>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="input-group">
+        <label>Contraseña</label>
+        <input 
+          type="password" 
+          formControlName="password"
+          [class.invalid]="registroForm.get('password')?.invalid && registroForm.get('password')?.touched"
+        >
+
+        <small class="error" 
+          *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.invalid">
+          Mínimo 6 caracteres
+        </small>
+      </div>
+
+      <!-- NOMBRES -->
+      <div class="input-group">
+        <label>Nombres</label>
+        <input type="text" formControlName="nombres">
+      </div>
+
+      <!-- APELLIDOS -->
+      <div class="input-group">
+        <label>Apellidos</label>
+        <input type="text" formControlName="apellidos">
+      </div>
+
+      <!-- BOTÓN -->
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="registroForm.invalid">
+        REGISTRARSE
+      </button>
+
+    </form>
+
+    <!-- LINK -->
+    <div class="extra-links">
+      <p>¿Ya tienes cuenta?</p>
+      <a routerLink="/login">Ir al login</a>
+    </div>
+
+  </div>
+</div>

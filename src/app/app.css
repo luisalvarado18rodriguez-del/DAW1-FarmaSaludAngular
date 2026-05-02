@@ -1,0 +1,59 @@
+/* Volvemos a un layout vertical para que el nav esté arriba */
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%);
+  color: white;
+  padding: 0 5%; /* Usamos el mismo 5% que el dashboard para que todo esté alineado */
+  
+  width: 100%;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  /* BOX-SIZING es la clave para que el zoom no lo rompa */
+  box-sizing: border-box; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+/* Para que los links no se amontonen al hacer zoom */
+.navbar nav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: nowrap; /* Evita que los links se bajen a otra fila */
+}
+
+.navbar a {
+  white-space: nowrap; /* Evita que el texto del link se parta en dos líneas */
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px; /* Un poco más pequeño para que respire mejor */
+  padding: 10px 20px;
+  border-radius: 4px; /* Cambiado a menos redondeado para que pegue con tus cards rectangulares */
+  transition: background 0.3s;
+}
+
+/* El contenedor del contenido debe empezar justo debajo del nav */
+/* Esto es lo que está causando los bordes blancos en tu app */
+/* ELIMINADOS PADDING Y MARGIN PARA BORDE A BORDE */
+.container {
+  flex: 1;
+  padding: 0;        /* Antes tenías 40px */
+  margin-top: 0;     /* Antes tenías 20px */
+  width: 100%;
+  background: #f9fafb;
+  display: flex;
+  flex-direction: column;
+}

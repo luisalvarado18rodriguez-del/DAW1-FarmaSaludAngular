@@ -1,0 +1,43 @@
+<div class="inventory-container">
+  <header class="inventory-header">
+    <div class="title-group">
+      <h2>Mi Historial de Reservas</h2>
+      <p style="font-size: 0.9rem; color: #64748b;">Consulta el estado de tus pedidos actuales</p>
+    </div>
+  </header>
+
+  <div class="reservas-list">
+    @for (res of reservas; track res.idReserva) {
+      <div class="reserva-card" style="background: white; border: 1px solid #e2e8f0; margin-bottom: 20px; padding: 20px; border-radius: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px;">
+          <div>
+            <span style="font-weight: 800; color: #0d9488;">RESERVA #{{ res.idReserva }}</span>
+            <small style="display: block; color: #64748b;">Fecha: {{ res.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</small>
+          </div>
+          <span [class]="getEstadoClass(res.estado)" 
+                style="padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+            {{ res.estado }}
+          </span>
+        </div>
+
+        <div class="detalles-grid">
+          @for (det of res.detalles; track det.idDetalle) {
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; padding: 5px 0;">
+              <span>{{ det.nombreMedicamento }} (x{{ det.cantidad }})</span>
+              <strong>S/ {{ (det.precioUnitario * det.cantidad) | number:'1.2-2' }}</strong>
+            </div>
+          }
+        </div>
+
+        <div style="margin-top: 15px; text-align: right; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
+          <span style="color: #64748b; font-size: 0.8rem;">TOTAL A PAGAR EN TIENDA:</span>
+          <h3 style="margin: 0; color: #1e293b;">S/ {{ 150.00 | number:'1.2-2' }}</h3> <!-- Aquí deberías sumar los subtotales -->
+        </div>
+      </div>
+    } @empty {
+      <div style="text-align: center; padding: 50px;">
+        <p>Aún no has realizado ninguna reserva.</p>
+      </div>
+    }
+  </div>
+</div>
