@@ -41,7 +41,7 @@ export const routes: Routes = [
     path: 'reservas', 
     component: Reservas, 
     canActivate: [authGuard], 
-    data: { role: 'CLIENTE' } 
+    data: { role: 'ADMIN' } 
   },
   { 
   path: 'catalogo', 
