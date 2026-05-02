@@ -9,9 +9,15 @@
       <a *ngIf="hasRole('ADMIN')" routerLink="/usuarios">Usuarios</a>
       <a *ngIf="hasRole('ADMIN')" routerLink="/medicamentos">Medicamentos</a>
 
-      <a *ngIf="hasRole('CLIENTE')" routerLink="/reservas">Mis Reservas</a>
+      <a *ngIf="hasRole('ADMIN')" routerLink="/reservas">Ver Reservas</a>
+      <a *ngIf="hasRole('CLIENTE')" routerLink="/catalogo">Catálogo</a>
+      <a *ngIf="hasRole('CLIENTE')" routerLink="/mis-reservas">Mis Reservas</a>
 
       <a (click)="logout()" style="cursor:pointer; color:#ff6b6b;">Salir</a>
+<!-- Este link solo debería verse si el rol es CLIENTE, pero para probar déjalo así -->
+  <a routerLink="/catalogo">Comprar</a>
+
+
     </nav>
   </header>
 

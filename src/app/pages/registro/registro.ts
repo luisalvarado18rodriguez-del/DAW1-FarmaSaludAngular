@@ -37,18 +37,18 @@ export class RegistroComponent {
     });
   }
 
-  enviarRegistro() {
-  console.log("CLICK REGISTRO");
-  console.log("VALID:", this.registroForm.valid);
-  console.log(this.registroForm.value);
-
+enviarRegistro() {
   if (this.registroForm.valid) {
     this.authService.registrar(this.registroForm.value).subscribe({
       next: () => {
-        alert('OK');
+        alert('Registro exitoso');
         this.router.navigate(['/login']);
       },
-      error: (err) => console.error(err)
+      // Añadimos ": any" para evitar el error de tipo implícito[cite: 3]
+      error: (err: any) => {
+        console.error(err);
+        alert('Error al registrar usuario');
+      }
     });
   }
 }

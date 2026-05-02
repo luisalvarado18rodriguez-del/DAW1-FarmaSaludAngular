@@ -9,24 +9,27 @@ export class ReservaService {
 
   constructor(private http: HttpClient) { }
 
-  crear(reserva: ReservaRequest, archivos: File[]): Observable<ReservaResponse> {
-    const formData = new FormData();
+crear(reserva: ReservaRequest, archivos: File[]): Observable<ReservaResponse> {
+  const formData = new FormData();
 
-    // Convertimos el objeto reserva a un Blob JSON
-    const json = JSON.stringify(reserva);
-    const blob = new Blob([json], { type: 'application/json' });
-    
-    formData.append('reserva', blob);
+  // Es fundamental definir el tipo 'application/json' para que el Backend lo mapee al DTO correctamente
+  const blob = new Blob([JSON.stringify(reserva)], { type: 'application/json' });
+  formData.append('reserva', blob);
 
-    // Agregamos todos los archivos de recetas
+  // Solo agregamos archivos si existen en el arreglo
+  if (archivos && archivos.length > 0) {
     archivos.forEach(archivo => {
       formData.append('archivos', archivo);
     });
-
-    return this.http.post<ReservaResponse>(this.apiUrl, formData);
   }
+
+  return this.http.post<ReservaResponse>(this.apiUrl, formData);
+}
 
   listar(): Observable<ReservaResponse[]> {
     return this.http.get<ReservaResponse[]>(this.apiUrl);
   }
+  listarPorUsuario(idUsuario: number): Observable<ReservaResponse[]> {
+  return this.http.get<ReservaResponse[]>(`${this.apiUrl}/usuario/${idUsuario}`);
+}
 }

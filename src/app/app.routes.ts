@@ -7,6 +7,8 @@ import { Medicamentos } from './pages/medicamentos/medicamentos';
 import { Reservas } from './pages/reservas/reservas';
 import { Usuarios } from './pages/usuarios/usuarios';
 import { RegistroComponent } from './pages/registro/registro';
+import { CatalogoCliente } from './pages/catalogo-cliente/catalogo-cliente';
+import { MisReservas } from './pages/reservas/mis-reservas';
 
 export const routes: Routes = [
 
@@ -38,6 +40,17 @@ export const routes: Routes = [
   { 
     path: 'reservas', 
     component: Reservas, 
+    canActivate: [authGuard], 
+    data: { role: 'CLIENTE' } 
+  },
+  { 
+  path: 'catalogo', 
+  component: CatalogoCliente, 
+  canActivate: [authGuard], 
+  data: { role: 'CLIENTE' }
+  },
+  { path: 'mis-reservas', 
+    component: MisReservas, 
     canActivate: [authGuard], 
     data: { role: 'CLIENTE' } 
   },

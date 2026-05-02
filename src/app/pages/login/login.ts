@@ -35,23 +35,19 @@ export class Login {
     private _usuarioService: UsuarioService 
   ) {}
 
-  onLogin() {
+onLogin() {
   this._usuarioService.login(this.credentials).subscribe({
     next: (response: any) => { 
       console.log("Login exitoso", response);
       
-      // 1. Guardamos el objeto completo (por si lo necesitas luego)
+      // 1. Guardamos los datos para que el catálogo los encuentre
+      localStorage.setItem('user_role', response.rol); 
+      localStorage.setItem('user_id', response.idUsuario.toString()); // 🔥 ESTA LÍNEA ES VITAL
+      localStorage.setItem('user_name', response.nombres);
       localStorage.setItem('usuarioLogueado', JSON.stringify(response));
-      
-      // 2. EXTRAEMOS EL ROL y lo guardamos con la llave que usa el Navbar
-      // Asegúrate de que 'response.rol' sea el nombre correcto que viene de tu Java
-      if (response && response.rol) {
-        localStorage.setItem('user_role', response.rol); 
-      }
 
-      // 3. Navegamos al dashboard
-      this.router.navigate(['/dashboard']).then(() => {
-        // Forzamos un refresco rápido para que el Navbar detecte el cambio de storage
+      // 2. Navegamos al catálogo o dashboard
+      this.router.navigate(['/catalogo']).then(() => {
         window.location.reload(); 
       });
     },
@@ -59,10 +55,6 @@ export class Login {
       console.error("Error en login", err);
       alert("Usuario o clave incorrectos.");
     }
-    
-
-
   });
-  
 }
 }

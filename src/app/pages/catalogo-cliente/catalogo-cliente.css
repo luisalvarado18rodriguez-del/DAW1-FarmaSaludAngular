@@ -1,0 +1,221 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.inventory-container {
+  padding: 30px 5%;
+  background: #f1f5f9;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  margin-top: 10px;
+}
+
+.inventory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 3px solid #0d9488;
+  padding-bottom: 15px;
+}
+
+.btn-add {
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-add:hover {
+  background: #0d9488;
+  transform: translateY(-2px);
+}
+
+/* --- GRID --- */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 25px;
+}
+
+/* --- CARD CON HOVER RESTAURADO --- */
+.medic-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+}
+
+/* LA LÍNEA QUE SE MUEVE (CORREGIDA) */
+.card-accent {
+  height: 5px;
+  width: 0%; /* Empieza en cero */
+  background: #0d9488;
+  transition: width 0.4s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.medic-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  border-color: #0d9488;
+}
+
+/* ACTIVACIÓN DE LA LÍNEA */
+.medic-card:hover .card-accent {
+  width: 100%;
+}
+
+/* IMAGEN */
+.image-wrapper {
+  height: 180px;
+  background: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+.image-wrapper img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* CUERPO */
+.card-body {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-tag {
+  font-size: 0.65rem;
+  color: #0d9488;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.product-title {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+  height: 2.8rem;
+  overflow: hidden;
+}
+
+.stats-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f1f5f9;
+  padding: 10px;
+  gap: 10px;
+}
+
+.stat-item { display: flex; flex-direction: column; }
+.stat-label { font-size: 0.6rem; color: #64748b; font-weight: 700; text-transform: uppercase; }
+.stat-value { font-size: 1rem; font-weight: 800; color: #0f172a; }
+
+.lote-tag {
+  margin-top: 10px;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: 8px;
+}
+
+/* FOOTER */
+.card-footer {
+  padding: 12px 15px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-details {
+  background: none; border: none;
+  color: #0d9488; font-weight: 800;
+  font-size: 0.75rem; cursor: pointer;
+}
+
+.action-btns { display: flex; gap: 8px; }
+
+.mini-btn {
+  border: none; background: #f1f5f9;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: 0.2s;
+}
+
+.mini-btn:hover { transform: scale(1.1); background: #e2e8f0; }
+
+/* --- MODAL --- */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.8);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 2000; backdrop-filter: blur(4px);
+}
+
+.modal-box {
+  background: white; width: 90%; max-width: 500px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: pop 0.3s ease-out;
+}
+
+.form-grid { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.field label {
+  display: block; font-size: 0.7rem; font-weight: 800;
+  color: #475569; text-transform: uppercase; margin-bottom: 5px;
+}
+
+.field input, .field select {
+  width: 100%; padding: 10px; border: 1px solid #cbd5e1; box-sizing: border-box;
+}
+
+@keyframes pop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+/* Estilos extra para el carrito lateral */
+aside {
+  position: sticky;
+  top: 100px;
+  border: 2px solid #0d9488;
+}
+
+aside h3 {
+  color: #1e293b;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.btn-confirmar {
+  background: #0d9488;
+  color: white;
+  border: none;
+  padding: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-confirmar:hover {
+  background: #0f172a;
+}
