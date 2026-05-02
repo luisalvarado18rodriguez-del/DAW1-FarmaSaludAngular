@@ -1,0 +1,87 @@
+<div class="reservas-container">
+  <!-- SECCIÓN 1: CATÁLOGO DE MEDICAMENTOS -->
+  <section class="catalogo">
+    <h2>Catálogo de Medicamentos</h2>
+    <div class="grid-medicamentos">
+      
+      <!-- Usamos @for igual que tu compañero para asegurar compatibilidad -->
+      @for (med of listaMedicamentos; track med.idMedicamento) {
+        <div class="card-med">
+          <div class="image-wrapper">
+            @if (med.rutaImagen) {
+              <img [src]="'http://localhost:8080/uploads/' + med.rutaImagen" [alt]="med.nombre" class="med-thumb">
+            } @else {
+              <span style="font-size: 3rem;">💊</span>
+            }
+          </div>
+          
+          <div class="med-info">
+            <h3>{{ med.nombre }}</h3>
+            <p class="categoria">{{ med.nombreCategoria || 'General' }}</p>
+            <p class="precio">S/ {{ med.precio | number:'1.2-2' }}</p>
+            <p class="stock" [style.color]="med.stock < 10 ? '#ef4444' : '#0f172a'">
+              Stock disponible: {{ med.stock }}
+            </p>
+            
+            @if (med.recetaMedica) {
+              <span class="badge-receta">Requiere Receta</span>
+            }
+            
+            <button (click)="agregarAlCarrito(med)" 
+                    [disabled]="med.stock <= 0"
+                    class="btn-add">
+              {{ med.stock > 0 ? 'Agregar al Carrito' : 'Agotado' }}
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <p>Cargando medicamentos...</p>
+      }
+
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: CARRITO Y RECETAS -->
+  <aside class="carrito-sidebar">
+    <h2>Tu Reserva</h2>
+    
+    @if (carrito.length === 0) {
+      <div class="carrito-vacio">
+        <p>No hay medicamentos en la reserva.</p>
+      </div>
+    }
+
+    @for (item of carrito; track $index) {
+      <div class="item-carrito">
+        <div class="item-header">
+          <strong>{{ item.nombre }}</strong>
+          <button (click)="eliminarDelCarrito($index)" class="btn-remove">×</button>
+        </div>
+        
+        <div class="item-controles">
+          <span>Cantidad: {{ item.cantidad }}</span>
+          <span>S/ {{ (item.precio * item.cantidad) | number:'1.2-2' }}</span>
+        </div>
+
+        @if (item.requiereReceta) {
+          <div class="upload-receta">
+            <label>Adjuntar Receta:</label>
+            <input type="file" (change)="onFileSelected($event, item)" accept="image/*,.pdf">
+            @if (item.archivoSeleccionado) {
+              <small style="color: #0d9488; display: block;">✓ {{ item.archivoSeleccionado.name }}</small>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (carrito.length > 0) {
+      <div class="total-seccion">
+        <hr>
+        <button (click)="finalizarReserva()" class="btn-finalizar">
+          Confirmar Reserva
+        </button>
+      </div>
+    }
+  </aside>
+</div>
