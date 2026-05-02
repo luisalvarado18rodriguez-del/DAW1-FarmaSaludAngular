@@ -11,6 +11,11 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
+  
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials); 
+  }
+
   // Mapeado al @GetMapping de tu Controller [cite: 266-268]
   listar(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl);

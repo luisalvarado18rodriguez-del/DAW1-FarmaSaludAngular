@@ -7,7 +7,7 @@
 }
 
 .navbar {
-  background: linear-gradient(135deg, #0fd43a 0%, #08acc9 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%);
   color: white;
   padding: 0 5%; /* Usamos el mismo 5% que el dashboard para que todo esté alineado */
   

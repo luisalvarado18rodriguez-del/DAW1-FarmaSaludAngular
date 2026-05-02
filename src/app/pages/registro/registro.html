@@ -1,0 +1,41 @@
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 card p-4 shadow">
+      <h3 class="text-center mb-4">Registro FarmaSalud</h3>
+      
+      <form [formGroup]="registroForm" (ngSubmit)="enviarRegistro()">
+        <div class="mb-3">
+          <label>Nombres</label>
+          <input type="text" formControlName="nombres" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Apellidos</label>
+          <input type="text" formControlName="apellidos" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Username</label>
+          <input type="text" formControlName="username" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label>Contraseña</label>
+          <input type="password" formControlName="password" class="form-control">
+        </div>
+
+        <div class="mt-3 small">
+  <p>¿Formulario Válido?: <b [class.text-success]="registroForm.valid" [class.text-danger]="!registroForm.valid">{{ registroForm.valid }}</b></p>
+  <p>Errores Password: {{ registroForm.get('password')?.errors | json }}</p>
+  <p>Valores actuales: {{ registroForm.value | json }}</p>
+</div>
+
+        <button type="submit" [disabled]="registroForm.invalid" class="btn btn-success w-100">
+          Registrarme
+        </button>
+      </form>
+      
+    </div>
+  </div>
+</div>
