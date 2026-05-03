@@ -4,18 +4,18 @@
     <h1>FarmaSalud</h1>
 
     <nav>
-      <a routerLink="/dashboard">Inicio</a>
-
+      <a *ngIf="hasRole('ADMIN')"routerLink="/dashboard">Inicio</a>
       <a *ngIf="hasRole('ADMIN')" routerLink="/usuarios">Usuarios</a>
       <a *ngIf="hasRole('ADMIN')" routerLink="/medicamentos">Medicamentos</a>
+      <a *ngIf="hasRole('ADMIN')" routerLink="/gestion-reservas">Ver Reservas</a>
 
-      <a *ngIf="hasRole('ADMIN')" routerLink="/Reservas">Ver Reservas</a>
-      <a *ngIf="hasRole('CLIENTE')" routerLink="/catalogo">Catálogo</a>
+      <!--<a *ngIf="hasRole('CLIENTE')" routerLink="/catalogo">Catálogo</a> -->
+      <a *ngIf="hasRole('CLIENTE')"routerLink="/catalogo">Comprar</a>      
       <a *ngIf="hasRole('CLIENTE')" routerLink="/mis-reservas">Mis Reservas</a>
 
       <a (click)="logout()" style="cursor:pointer; color:#ff6b6b;">Salir</a>
 <!-- Este link solo debería verse si el rol es CLIENTE, pero para probar déjalo así -->
-  <a routerLink="/catalogo">Comprar</a>
+  
 
 
     </nav>

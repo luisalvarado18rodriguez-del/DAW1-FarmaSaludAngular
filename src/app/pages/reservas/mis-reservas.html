@@ -14,29 +14,34 @@
             <span style="font-weight: 800; color: #0d9488;">RESERVA #{{ res.idReserva }}</span>
             <small style="display: block; color: #64748b;">Fecha: {{ res.fechaCreacion | date:'dd/MM/yyyy HH:mm' }}</small>
           </div>
+          <!-- Usamos la clase dinámica para el color del estado -->
           <span [class]="getEstadoClass(res.estado)" 
-                style="padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;">
+                style="padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">
             {{ res.estado }}
           </span>
         </div>
 
         <div class="detalles-grid">
           @for (det of res.detalles; track det.idDetalle) {
-            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; padding: 5px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; padding: 5px 0; border-bottom: 1px solid #f8fafc;">
               <span>{{ det.nombreMedicamento }} (x{{ det.cantidad }})</span>
               <strong>S/ {{ (det.precioUnitario * det.cantidad) | number:'1.2-2' }}</strong>
             </div>
           }
         </div>
 
+        <!-- SECCIÓN CORREGIDA: Ahora el total es dinámico -->
         <div style="margin-top: 15px; text-align: right; border-top: 1px dashed #cbd5e1; padding-top: 10px;">
-          <span style="color: #64748b; font-size: 0.8rem;">TOTAL A PAGAR EN TIENDA:</span>
-          <h3 style="margin: 0; color: #1e293b;">S/ {{ 150.00 | number:'1.2-2' }}</h3> <!-- Aquí deberías sumar los subtotales -->
+          <span style="color: #64748b; font-size: 0.8rem; font-weight: 800;">TOTAL A PAGAR EN TIENDA:</span>
+          <h3 style="margin: 0; color: #1e293b; font-weight: 900;">
+            S/ {{ calcularTotal(res.detalles) | number:'1.2-2' }}
+          </h3>
         </div>
       </div>
     } @empty {
-      <div style="text-align: center; padding: 50px;">
-        <p>Aún no has realizado ninguna reserva.</p>
+      <div style="text-align: center; padding: 50px; background: white; border-radius: 8px;">
+        <span style="font-size: 3rem; display: block; margin-bottom: 10px;">📅</span>
+        <p style="color: #64748b; font-weight: 600;">Aún no has realizado ninguna reserva.</p>
       </div>
     }
   </div>

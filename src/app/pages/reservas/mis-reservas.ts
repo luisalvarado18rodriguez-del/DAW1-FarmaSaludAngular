@@ -40,4 +40,9 @@ export class MisReservas implements OnInit {
       default: return '';
     }
   }
+  //vdvdvdvdvdv
+  // En mis-reservas.ts
+calcularTotal(detalles: any[]): number {
+  return detalles.reduce((acc, det) => acc + (det.precioUnitario * det.cantidad), 0);
+}
 }
